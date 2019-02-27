@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.opmodes.test;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.opmodes.base.RoverBase;
+
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_WITHOUT_ENCODER;
+import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
+import static com.qualcomm.robotcore.hardware.Servo.Direction.REVERSE;
 
 /**
  * Created by Derek on 1/9/2019.
@@ -17,7 +18,6 @@ public class BenArmTest extends RoverBase {
     long lastTime;
     double targetVelocity;
 
-    Servo leftClaw,rightClaw,leftClamp,rightClamp;
     double clawPos;
 
     @Override
@@ -25,7 +25,10 @@ public class BenArmTest extends RoverBase {
         super.init();
 
         leftClaw = hardwareMap.servo.get("clawLeft");
-        rightClaw = hardwareMap.servo.get("clawRight");
+
+
+
+        leftClaw.setDirection(REVERSE);
 
         leftClamp = hardwareMap.servo.get("leftClamp");
         rightClamp = hardwareMap.servo.get("rightClamp");
@@ -35,10 +38,10 @@ public class BenArmTest extends RoverBase {
         leftClamp.setPosition(0);
         rightClamp.setPosition(1);
 
-        leftArmBase.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightArmBase.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftArmBase.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightArmBase.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftArmBase .setMode(RUN_WITHOUT_ENCODER);
+        rightArmBase.setMode(RUN_WITHOUT_ENCODER);
+        leftArmBase .setZeroPowerBehavior(BRAKE);
+        rightArmBase.setZeroPowerBehavior(BRAKE);
 
         lastTime = -1L;
     }
@@ -98,9 +101,6 @@ public class BenArmTest extends RoverBase {
 
         leftArmBase.setPower(targetVelocity);
         rightArmBase.setPower(targetVelocity);
-
-        //leftArmBase.setPower(gamepad2.right_stick_y / 7);
-        //rightArmBase.setPower(gamepad2.right_stick_y / 7);
 
         leftArmExtender.setPower(gamepad2.left_stick_y/3);
         rightArmExtender.setPower(gamepad2.left_stick_y/3);
