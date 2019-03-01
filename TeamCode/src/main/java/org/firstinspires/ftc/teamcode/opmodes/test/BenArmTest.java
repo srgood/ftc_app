@@ -26,8 +26,6 @@ public class BenArmTest extends RoverBase {
 
         leftClaw = hardwareMap.servo.get("clawLeft");
 
-
-
         leftClaw.setDirection(REVERSE);
 
         leftClamp = hardwareMap.servo.get("leftClamp");

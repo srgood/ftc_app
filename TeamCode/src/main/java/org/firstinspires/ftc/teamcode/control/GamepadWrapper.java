@@ -11,14 +11,15 @@ import static org.firstinspires.ftc.teamcode.control.ButtonState.PRESSED;
  */
 
 @SuppressWarnings("WeakerAccess")
-public class GamepadWrapper implements Gamepad.GamepadCallback {
+public class GamepadWrapper {
     public Button A,B,X,Y,DPAD_UP,DPAD_DOWN,DPAD_LEFT,DPAD_RIGHT,LEFT_STICK_BUTTON,RIGHT_STICK_BUTTON,START,GUIDE,LEFT_BUMPER,RIGHT_BUMPER;
+    private Gamepad gamepad;
+    public boolean initalized = false;
+
 
     public GamepadWrapper(Gamepad gamepad) throws RobotCoreException {
 
         //some code gymnastics because of the weird way gamepad is implemented
-        Gamepad gamepad1 = new Gamepad(this);
-        gamepad1.copy(gamepad);
 
         A = new Button();
         B = new Button();
@@ -34,10 +35,15 @@ public class GamepadWrapper implements Gamepad.GamepadCallback {
         GUIDE = new Button();
         LEFT_BUMPER = new Button();
         RIGHT_BUMPER = new Button();
+
+        this.gamepad = gamepad;
+
+        initalized = true;
+        update();
     }
 
-    @Override
-    public void gamepadChanged(Gamepad gamepad) {
+    public void update() {
+        if (!this.initalized) return;
         setState(A, gamepad.a);
         setState(B, gamepad.b);
         setState(X, gamepad.x);

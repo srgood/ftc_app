@@ -43,6 +43,7 @@ public class RoverBase extends OpMode {
 
     @Override
     public void init() {
+        //error handling initialization code
         boolean error = false;
 
         try {
@@ -81,13 +82,20 @@ public class RoverBase extends OpMode {
 
     @Override
     public void loop() {
-
+        /*
+        i'm sad that this unsightly thing has to be here, but for the time being, it has to be.
+        The way that the library handles controllers doesn't allow you to easily use the built in callbacks,
+        so this is the way it has to be :(
+         */
+        gamepadWrapper1.update();
+        gamepadWrapper2.update();
     }
 
     /*
         Private utility methods
      */
 
+    //initalizes DC motors
     private void initDCMotors() {
         leftArmExtender  = hardwareMap.dcMotor.get("extLeft");
         rightArmExtender = hardwareMap.dcMotor.get("extRight");
@@ -123,6 +131,7 @@ public class RoverBase extends OpMode {
         rightArmBase.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
+    //Resets encoders
     private void resetEncoders() {
         A.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         B.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -143,6 +152,7 @@ public class RoverBase extends OpMode {
         }
     }
 
+    //initalizes servos
     private void initServos() {
         //claws are the grippers on the main arm of the robot
         leftClaw  = hardwareMap.servo.get("clawLeft");
