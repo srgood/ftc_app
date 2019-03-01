@@ -24,17 +24,13 @@ public class BenArmTest extends RoverBase {
     public void init() {
         super.init();
 
-        leftClaw = hardwareMap.servo.get("clawLeft");
-
-        leftClaw.setDirection(REVERSE);
-
         leftClamp = hardwareMap.servo.get("leftClamp");
         rightClamp = hardwareMap.servo.get("rightClamp");
 
         clawPos = 0;
 
         leftClamp.setPosition(0);
-        rightClamp.setPosition(1);
+        rightClamp.setPosition(0;/);
 
         leftArmBase .setMode(RUN_WITHOUT_ENCODER);
         rightArmBase.setMode(RUN_WITHOUT_ENCODER);
