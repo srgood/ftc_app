@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.base;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.exception.RobotCoreException;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -62,7 +63,13 @@ public class RoverBase extends OpMode {
             telemetry.addLine("Successfully initialized all hardware");
         }
 
-
+        try {
+            gamepadWrapper1 = new GamepadWrapper(gamepad1);
+            gamepadWrapper2 = new GamepadWrapper(gamepad2);
+        } catch (RobotCoreException e) {
+            e.printStackTrace();
+            telemetry.addLine("Error initializing Controllers");
+        }
 
         telemetry.addLine("Base initiation complete");
     }
