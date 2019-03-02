@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.base;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.exception.RobotCoreException;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -34,6 +35,10 @@ public class RoverBase extends OpMode {
             rightClaw,
             leftClamp,
             rightClamp;
+
+    protected CRServo
+            leftPusher,
+            rightPusher;
 
     //Gamepad wrappers
     protected GamepadWrapper
@@ -165,5 +170,10 @@ public class RoverBase extends OpMode {
         rightClamp = hardwareMap.servo.get("rightClamp");
 
         rightClamp.setDirection(Servo.Direction.REVERSE);
+
+        rightPusher = hardwareMap.crservo.get("rightPusher");
+        leftPusher  = hardwareMap.crservo.get("leftPusher");
+
+        leftPusher.setDirection(CRServo.Direction.REVERSE);
     }
 }

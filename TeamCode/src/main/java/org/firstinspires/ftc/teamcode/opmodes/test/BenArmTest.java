@@ -30,7 +30,7 @@ public class BenArmTest extends RoverBase {
         clawPos = 0;
 
         leftClamp.setPosition(0);
-        rightClamp.setPosition(0;/);
+        rightClamp.setPosition(0);
 
         leftArmBase .setMode(RUN_WITHOUT_ENCODER);
         rightArmBase.setMode(RUN_WITHOUT_ENCODER);
@@ -43,6 +43,8 @@ public class BenArmTest extends RoverBase {
     @Override
     public void loop() {
         //fixme
+
+        super.loop();
 
         leftClamp.setPosition(0.5);
         rightClamp.setPosition(0.5);
@@ -65,7 +67,7 @@ public class BenArmTest extends RoverBase {
         telemetry.addData("Δp",currentPos - lastPosition);
         telemetry.addData("tps",tps);
         telemetry.addData("targetVel",targetVelocity);
-        telemetry.addData("gamepad2.rightsticky",gamepad2.right_stick_y);
+        telemetry.addData("gamepadw2.rightbump",gamepadWrapper2.RIGHT_BUMPER.getState().name());
         telemetry.addData("Encoder ticks per second",tps);
 
         if (gamepad2.right_stick_y == 0) {
@@ -116,9 +118,50 @@ public class BenArmTest extends RoverBase {
             clawPos -= 0.01;
         }
 
-        rightClaw.setPosition(1-clawPos);
-        leftClaw.setPosition(clawPos);
+        rightClaw.setPosition(1-(0.4*gamepad2.right_trigger));
+        leftClaw.setPosition(1-(0.4*gamepad2.left_trigger));
 
+        if(gamepadWrapper2.RIGHT_BUMPER.isPressed()) {
+            new Thread() {
+               @Override
+               public void run() {
+                   rightPusher.setPower(0.3);
+                   try {
+                       Thread.sleep(600);
+                   } catch (InterruptedException e) {
+                       e.printStackTrace();
+                   }
+                   rightPusher.setPower(-0.3);
+                   try {
+                       Thread.sleep(600);
+                   } catch (InterruptedException e) {
+                       e.printStackTrace();
+                   }
+                   rightPusher.setPower(0);
+               }
+           }.start();
+        }
+
+        if(gamepadWrapper2.LEFT_BUMPER.isPressed()) {
+            new Thread() {
+                @Override
+                public void run() {
+                    leftPusher.setPower(0.3);
+                    try {
+                        Thread.sleep(600);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    leftPusher.setPower(-0.3);
+                    try {
+                        Thread.sleep(600);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    leftPusher.setPower(0);
+                }
+            }.start();
+        }
 
         lastPosition = currentPos;
         lastTime = System.nanoTime();
